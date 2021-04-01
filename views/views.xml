@@ -1,0 +1,121 @@
+<odoo>
+  <data>
+    <!-- Search View -->
+    <record model="ir.ui.view" id="kursus_search_view">
+        <field name="name">training.kursus.search</field>
+        <field name="model">training.kursus</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="responsible_id"/>
+                <field name="description"/>
+                <filter name="my_courses" string="Kursus Saya" domain="[('responsible_id', '=', uid)]"/>
+                <group string="Group By">
+                    <filter name="by_responsible" string="Penanggung Jawab" context="{'group_by': 'responsible_id'}"/>
+                    <filter name="by_date" string="Berdasarkan Tanggal" context="{'group_by': 'date_start'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ### Membuat Tampilan Tree/List ### -->
+     
+        <record model="ir.ui.view" id="kursus_tree_view">
+            <field name="name">training.kursus.tree</field>
+            <field name="model">training.kursus</field>
+            <field name="arch" type="xml">
+                <tree string="Kursus List">
+                    <field name="name"/>
+                    <field name="responsible_id" />
+                    <field name="description"/>
+                    <field name="on_weekend"/>
+                    <field name="result_weekend"/>
+                    <field name="date_start"/>
+                    <field name="date_done"/>   
+                </tree>
+            </field>
+        </record>
+   
+   
+  <!-- ### Membuat Tampilan Form ### -->
+   
+    <record model="ir.ui.view" id="kursus_form_view">
+        <field name="name">training.kursus.form</field>
+        <field name="model">training.kursus</field>
+        <field name="arch" type="xml">
+            <form string="Kursus Form">
+                <header>
+                    <button name="action_confirm" type="object" string="Confirm" states="draft" class="btn-primary"/>
+                    <button name="action_cancel" type="object" string="Cancel" states="open"/>
+                    <button name="action_close" type="object" string="Close" states="done" class="btn-primary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,done"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="responsible_id"/>
+                    </group>
+                    <notebook>
+                        <page string="Sesi">
+                            <field name="session_ids">
+                                <tree string="Daftar Sesi" editable="bottom">
+                                    <field name="name"/>
+                                    <field name="instructor_id"/>
+                                </tree>
+                                <form>
+                                    <group string="Informasi">
+                                        <field name="name"/>
+                                        <field name="instructor_id"/>
+                                    </group>
+                                    <group string="Jadwal">
+                                        <field name="start_date"/>
+                                        <field name="duration"/>
+                                        <field name="seats"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Keterangan">
+                            <field name="description"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+   
+   
+    <!-- ### Membuat Action/Event Object Kursus ### -->
+    
+    <record model="ir.actions.act_window" id="kursus_list_action">
+        <field name="name">Kursus</field>
+        <field name="res_model">training.kursus</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Buatlah kursus pertamamu ...</p>
+        </field>
+    </record>
+   
+   
+    <!-- ### Membuat Menu Bar ### -->
+    
+    <menuitem id="main_training_odoo_menu" name="Training Odoo" web_icon="training_odoo,static/description/kesbor.jpg"/>
+    
+        
+    <!-- ### Membuat Menu Title ### -->
+    
+    <menuitem id="training_odoo_menu" name="Training" parent="main_training_odoo_menu"/>
+    
+    
+    <!-- ### Membuat Sub Menu ### -->
+    
+    <menuitem id="kursus_menu" name="Kursus" parent="training_odoo_menu" action="kursus_list_action"/>
+
+  
+</data>
+</odoo>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_sesi_template" name="report_sesi_template">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="o">
+                <div>
+                    <h2 class="text-center">REPORT SESI - <span t-field="o.name" ></span> </h2><br/>
+                    <table class="table">
+                        <tr>
+                            <td><strong>Nama</strong></td>
+                            <td><span t-field="o.name"/></td>
+                            <td><strong>Instruktur</strong></td>
+                            <td><span t-field="o.instructor_id.name"/></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tanggal Mulai</strong></td>
+                            <td><span t-field="o.start_date"/></td>
+                            <td><strong>Tanggal Akhir</strong></td>
+                            <td><span t-field="o.end_date"/></td>
+                        </tr>
+                    </table>
+
+                    <table class="table table-bordered" style="table-layout:auto">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Name</th>
+                                <th class="text-center">Phone</th>
+                                <th class="text-center">Email</th>
+                            </tr>
+                    </thead>
+                    <br/>
+                    <tbody>
+                            <t t-foreach="o.attendee_ids" t-as="l">
+                                <tr>
+                                    <td><span t-field="l.name"/></td>
+                                    <td><span t-field="l.phone"/></td>
+                                    <td><span t-field="l.email"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>
